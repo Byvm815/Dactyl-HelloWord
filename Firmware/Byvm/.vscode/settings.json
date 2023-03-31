@@ -7,5 +7,8 @@
         "usart.h": "c",
         "stm32f1xx_hal.h": "c",
         "main.h": "c"
-    }
+    },
+    "clangd.arguments": [
+        "--query-driver=/Applications/ARM/bin/arm-none-eabi-gcc", //编译器路径
+    ]
 }
