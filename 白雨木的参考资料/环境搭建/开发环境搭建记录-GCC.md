@@ -138,3 +138,78 @@ VSCode插件：
 ```
 /Applications/ARM/lib/gcc/arm-none-eabi/10.3.1/include/stdint-gcc.h
 ```
+230327
+经过了各种尝试：
+1. 设置settings.json中的clangd插件的库文件路径
+2. 通过配置clangd插件的PATH路径
+3. 在cmakelists中的include_directories()添加arm-none-eabi-gcc的库文件路径
+
+以上的方法都无法解决找不到库文件的问题。
+
+但在手动拷贝缺失的库文件到工作目录，并在Cmakelists.txt中引入，库文件缺失的问题就没有了。但在引用arm-none-eabi-gcc默认的安装位置中的库文件就会报错，令人不解，大概率是我的语法和引用函数不对。
+
+目前main.c有三个错误提示：
+1. 在第一行注释的错误：
+```
+Unknown argument: '-mthumb-interwork'clang(drv_unknown_argument)
+```
+
+2. main.h的错误：
+```
+In included file: "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"clang(pp_hash_error)
+```
+
+3. usb_device.h的错误
+```
+In included file: 'stdio.h' file not foundclang(pp_file_not_found)
+usbd_conf.h(31, 10): Error occurred here
+```
+
+230329
+发现Clion默认配置的Cmake会对不同的编译类型，单独生成一个Build文件夹。如cmake-build-debug、cmake-build-release。确实是设计地好啊。
+
+我又忘了看Clangd输出报错，光上网查错误提示是一点用也没有，就像我开始安装arm-none-eabi-gcc时，无法查找到一样。Clangd有一个输出面板，只是要把下拉箭头点开才看得到。
+
+其报错如下：
+```
+I[17:43:11.016] --> reply:textDocument/documentLink(1) 388 ms, error: Task was cancelled.
+
+[Error - 5:43:11 PM] Request textDocument/documentLink failed.
+```
+
+经过查找，外国网友说以上的问题提示并不是Clangd的问题，而是由VSCode客户端打印的。
+
+注意到，Clion生成的build文件夹并没有compile_commands.json文件，本来还想这，既然Clion也用Clangd，应该也有compile_commands.json可以用于对比。
+
+打开这个选项，Clion就有compile_commands.json文件了
+```
+set(CMAKE_EXPORT_COMPILE_COMMANDS True)
+```
+
+对比两个编辑器所生成的文件后发现，除了工作根目录不同导致的路径差异外，两者没有任何区别。
+
+main.h的错误提示，不知道怎么就突然不报错了。
+
+230330
+在使用默认配置时，发现main.h的错误提示又回来了。而C/Clangd配置中的Clangd只是改为brew下载的clangd。对比后发现，更改为非apple的clangd确实没有了main.h的错误提示。
+
+根据B站的视频（之前还看过一眼），--query-driver选项是要填编译器路径的，而网上找的教程都是说填Clangd路径。现在stdio的问题解决了。
+
+从cpptools的配置来看，确实是要填编译器路径的，但是我就是找不到Clangd的选项在哪。而网上的教程都是配置Clangd路径。
+
+将cmakelists中的
+```
+-mthumb-interwork
+```
+改为
+```
+-mno-thumb interworking
+```
+不知道该选项的错误提示没有了，但是编译的时候有错误提示，提示未知命令。
+
+新的错误提示：
+```
+CPU 'cortex-m3' does not support 'ARM' execution modeclang(cpu_unsupported_isa)
+```
+
+发现在Clion中，如果使用上面有错误的编译选项，也会提示上面CPU的相关错误提示。但是默认的编译选项在Clion是正常的。
