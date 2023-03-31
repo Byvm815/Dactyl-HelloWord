@@ -193,7 +193,7 @@ main.h的错误提示，不知道怎么就突然不报错了。
 230330
 在使用默认配置时，发现main.h的错误提示又回来了。而C/Clangd配置中的Clangd只是改为brew下载的clangd。对比后发现，更改为非apple的clangd确实没有了main.h的错误提示。
 
-根据B站的视频（之前还看过一眼），--query-driver选项是要填编译器路径的，而网上找的教程都是说填Clangd路径。现在stdio的问题解决了。
+根据B站的视频（之前还看过一眼）（https://www.bilibili.com/video/BV1RM411U7hr/），--query-driver选项是要填编译器路径的，而网上找的教程都是说填Clangd路径。现在stdio的问题解决了。
 
 从cpptools的配置来看，确实是要填编译器路径的，但是我就是找不到Clangd的选项在哪。而网上的教程都是配置Clangd路径。
 
