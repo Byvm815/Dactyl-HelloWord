@@ -213,3 +213,6 @@ CPU 'cortex-m3' does not support 'ARM' execution modeclang(cpu_unsupported_isa)
 ```
 
 发现在Clion中，如果使用上面有错误的编译选项，也会提示上面CPU的相关错误提示。但是默认的编译选项在Clion是正常的。
+
+230401
+无论是VSCode还是VSCodium，在安装CodeLLDB时，会下载一个额外的扩展，但无论我是等待插件下载完成，还是手动安装VSIX，在安装完成后CodeLLDB插件就会在我的扩展中消失。
