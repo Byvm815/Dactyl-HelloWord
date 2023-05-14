@@ -216,3 +216,24 @@ CPU 'cortex-m3' does not support 'ARM' execution modeclang(cpu_unsupported_isa)
 
 230401
 无论是VSCode还是VSCodium，在安装CodeLLDB时，会下载一个额外的扩展，但无论我是等待插件下载完成，还是手动安装VSIX，在安装完成后CodeLLDB插件就会在我的扩展中消失。
+
+230402
+不知道为什么，hw_keyboard.h突然有了列表的位数显示功能。我都没主动设置，多了位数反而不易阅读，因为我都排好版了。
+
+回看了设置，确实没有不是我自己更改的选项。难道是我刚才点了主题的缘故？或者我点了CMake Debug?
+
+hw_keyboard.h多出来的错误提示：
+```
+In included file: "No thread API"clang(pp_hash_error)
+__config(1213, 6): Error occurred here
+```
+230403
+把cmake tools删了还是有位数提示。
+
+关了Clangd就好了。
+
+HELLO_WORD_KEYBOARD_FW_HW_KEYBOARD_Hp的问题有快速修复，但是错误提示忘 记下了。
+
+关闭inlay hints就没有内联提示了。
+
+发现工作区的launch设置怎么重置都是更改状态。
