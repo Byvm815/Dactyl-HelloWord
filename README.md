@@ -1,6 +1,4 @@
 # V3.0更新预告
-目前还有网口接口替换和外壳支架没有完成。如果只使用网口，可以自行连接pcb后打样
-
 ![](<image/Screenshot From 2026-08-10 14-10-44.png>)
 ![](<image/Screenshot From 2026-08-19 18-55-48.png>)
 ![](<image/Screenshot From 2026-08-19 18-55-58.png>)
